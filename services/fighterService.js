@@ -24,6 +24,10 @@ class FighterService {
     }
     return fighter
   }
+
+  delete(id) {
+    return fighterRepository.delete(id)
+  }
 }
 
 const fighterService = new FighterService();

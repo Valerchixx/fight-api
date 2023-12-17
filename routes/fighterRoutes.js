@@ -55,4 +55,15 @@ router.get('/:id', (req,res,next) => {
   }
 },responseMiddleware)
 
+router.delete('/:id', (req,res, next) => {
+  try {
+    const id = req.params.id
+    fighterService.delete(id)
+    res.data = 'fighter was successfully deleted'
+  }catch(err) {
+    res.err = err
+  }finally {
+    next()
+  }
+},responseMiddleware)
 export { router };
