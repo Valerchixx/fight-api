@@ -3,6 +3,14 @@ import { userRepository } from "../repositories/userRepository.js";
 class UserService {
   // TODO: Implement methods to work with user
 
+  update(id, dataToUpdate) {
+    const updatedUser = userRepository.update(id, dataToUpdate);
+    if(!updatedUser) {
+      return null;
+    }
+    return updatedUser
+  }
+
   getOne(userData) {
     const user = userRepository.getOne(userData)
     if(!user) {

@@ -8,7 +8,6 @@ import { responseMiddleware } from "../middlewares/response.middleware.js";
 
 const router = Router();
 
-// TODO: Implement route controllers for user
 router.post(
   "/",
   createUserValid,
@@ -68,5 +67,18 @@ router.get('/:id', (req,res,next) => {
   }
 },responseMiddleware)
 
+
+router.put('/:id', (req,res,next) => {
+  try {
+    const id = req.params.id;
+    const updatedUser = userService.update(id, req.body);
+    res.data = updatedUser;
+
+  } catch(err) {
+    res.err = err
+  }finally {
+    next()
+  }
+}, responseMiddleware)
 
 export { router };
