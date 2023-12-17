@@ -3,6 +3,23 @@ import { userRepository } from "../repositories/userRepository.js";
 class UserService {
   // TODO: Implement methods to work with user
 
+  getOne(userData) {
+    const user = userRepository.getOne(userData)
+    if(!user) {
+      return null
+    }
+    return user;
+  }
+  delete(id) {
+    return userRepository.delete(id)
+  }
+  getAll() {
+    const users = userRepository.getAll()
+    if(!users) {
+      return null
+    }
+    return users;
+  }
   createUser(userData) {
     const user = userRepository.create(userData)
     if(!user) {
