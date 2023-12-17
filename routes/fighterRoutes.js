@@ -66,4 +66,17 @@ router.delete('/:id', (req,res, next) => {
     next()
   }
 },responseMiddleware)
+
+router.put('/:id',updateFighterValid,(req,res,next) => {
+  try {
+    const id = req.params.id
+    const updatedFighter = fighterService.update(id, req.body)
+    res.data = updatedFighter
+
+  }catch(err) {
+    res.err = err
+  }finally {
+    next()
+  }
+},responseMiddleware)
 export { router };

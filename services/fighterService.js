@@ -28,6 +28,14 @@ class FighterService {
   delete(id) {
     return fighterRepository.delete(id)
   }
+
+  update(id, dataToUpdate) {
+    const updatedFighter = fighterRepository.update(id,dataToUpdate)
+    if(!updatedFighter) {
+      return null
+    }
+    return updatedFighter
+  }
 }
 
 const fighterService = new FighterService();
