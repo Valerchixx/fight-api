@@ -13,13 +13,15 @@ router.post(
   createUserValid,
   (req, res, next) => {
     try {
+      if(res.err) {
+        return next()
+      }
       const {email, phoneNumber, firstName, lastName} = req.body
       const allUsers = userService.getAll();
-      const userWithSameEmail = !!allUsers.find((item) => item.email === email)
-      const userWithSamePhone = !!allUsers.find(item => item.phoneNumber === phoneNumber)
-      const userWithSameName = !!allUsers.find(item => item.firstName === firstName || item.lastName === lastName)
+      const userWithSameEmail = allUsers.find((item) => item.email === email)
+      const userWithSamePhone = allUsers.find(item => item.phoneNumber === phoneNumber)
 
-      if(userWithSameEmail || userWithSameName || userWithSamePhone) {
+      if(!!userWithSameEmail || !!userWithSamePhone) {
         throw new Error('User with same properties already exist')
       }
 
