@@ -16,6 +16,14 @@ class FighterService {
     }
     return fighter
   }
+
+  getOne(fighterData) {
+    const fighter = fighterRepository.getOne(fighterData)
+    if(!fighter) {
+      return null
+    }
+    return fighter
+  }
 }
 
 const fighterService = new FighterService();

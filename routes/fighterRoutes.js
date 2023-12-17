@@ -31,4 +31,28 @@ router.post('/', createFighterValid,(req,res,next) => {
 
 },responseMiddleware)
 
+router.get('/', (req, res,next) => {
+  try {
+    const fighters = fighterService.getAll()
+    res.data = fighters;
+
+  }catch(err) {
+    res.err = err
+  }finally {
+    next()
+  }
+},responseMiddleware)
+
+
+router.get('/:id', (req,res,next) => {
+  try {
+    const fighter = fighterService.getOne(req.body)
+    res.data = fighter
+  }catch(err) {
+    res.err = err
+  } finally {
+    next()
+  }
+},responseMiddleware)
+
 export { router };
