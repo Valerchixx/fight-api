@@ -9,7 +9,7 @@ router.post(
   (req, res, next) => {
     try {
       // TODO: Implement login action (get the user if it exist with entered credentials)
-      console.log(req.body)
+      // console.log(req.body)
       res.data = data;
     } catch (err) {
       res.err = err;
