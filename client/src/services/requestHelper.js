@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:3080/api';
+const apiUrl = '/api';
 
 export const get = async (entityName, id = '') => {
     return await makeRequest(`${entityName}/${id}`, 'GET');

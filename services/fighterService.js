@@ -1,7 +1,6 @@
 import { fighterRepository } from "../repositories/fighterRepository.js";
 
 class FighterService {
-  // TODO: Implement methods to work with fighters
   getAll() {
     const fighters = fighterRepository.getAll()
     if(!fighters) {
@@ -11,6 +10,9 @@ class FighterService {
   }
   create(fighterData) {
     const fighter = fighterRepository.create(fighterData)
+    if(!fighter['health']) {
+      fighter.health = 100
+    }
     if(!fighter) {
       return null
     }
@@ -26,7 +28,11 @@ class FighterService {
   }
 
   delete(id) {
-    return fighterRepository.delete(id)
+    const fighter = this.getOne({id})
+    if(!!fighter) {
+      return fighterRepository.delete(id)
+    }
+    return null
   }
 
   update(id, dataToUpdate) {
@@ -35,6 +41,28 @@ class FighterService {
       return null
     }
     return updatedFighter
+  }
+
+  isFighterWithName(name) {
+    const allFighters = this.getAll()
+    return !!allFighters.find(item => item.name === name)
+  }
+
+  isPowerValid = (power) => {
+    return power >= 1 && power <= 100
+  }
+
+  isDefenseValid = (defense) => {
+    return defense >= 1 && defense <= 10
+  }
+
+ isHealthValid = (health) => {
+    return health >= 80 && health <= 120
+  }
+
+  getRedundantKeys = (keys, fighterKeys) => {
+    const redundantKeys = fighterKeys.filter(item => !keys.includes(item))
+    return redundantKeys.length > 0
   }
 }
 

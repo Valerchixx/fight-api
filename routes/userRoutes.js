@@ -16,15 +16,6 @@ router.post(
       if(res.err) {
         return next()
       }
-      const {email, phoneNumber, firstName, lastName} = req.body
-      const allUsers = userService.getAll();
-      const userWithSameEmail = allUsers.find((item) => item.email === email)
-      const userWithSamePhone = allUsers.find(item => item.phoneNumber === phoneNumber)
-
-      if(!!userWithSameEmail || !!userWithSamePhone) {
-        throw new Error('User with same properties already exist')
-      }
-
       const user = userService.createUser(req.body)
       res.data = user;
     } catch(err) {
@@ -49,8 +40,7 @@ router.get('/', (req,res, next) => {
 router.delete('/:id', (req,res,next) => {
   try {
     const id = req.params.id
-    userService.delete(id)
-    res.data = 'success'
+    res.data =  userService.delete(id)
   } catch(err) {
     res.err = err
   } finally {
@@ -60,7 +50,8 @@ router.delete('/:id', (req,res,next) => {
 
 router.get('/:id', (req,res,next) => {
   try {
-    const user = userService.getOne(req.body)
+    const id = req.params.id
+    const user = userService.getOne({id})
     res.data = user;
   } catch(err) {
     res.err = err
@@ -70,7 +61,7 @@ router.get('/:id', (req,res,next) => {
 },responseMiddleware)
 
 
-router.put('/:id', (req,res,next) => {
+router.put('/:id',updateUserValid, (req,res,next) => {
   try {
     const id = req.params.id;
     const updatedUser = userService.update(id, req.body);

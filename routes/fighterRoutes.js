@@ -8,17 +8,10 @@ import {
 
 const router = Router();
 
-// TODO: Implement route controllers for fighter
 router.post('/', createFighterValid,(req,res,next) => {
   try {
     if(res.err) {
       return next()
-    }
-    const fighters = fighterService.getAll()
-    const fighterWithSameName = fighters.find(item => item.name === req.body.name)
-
-    if(!!fighterWithSameName) {
-      throw new Error('Fighter with same properties already exist')
     }
     const fighter = fighterService.create(req.body)
     res.data = fighter
@@ -46,7 +39,8 @@ router.get('/', (req, res,next) => {
 
 router.get('/:id', (req,res,next) => {
   try {
-    const fighter = fighterService.getOne(req.body)
+    const id = req.params.id
+    const fighter = fighterService.getOne({id})
     res.data = fighter
   }catch(err) {
     res.err = err
@@ -58,8 +52,7 @@ router.get('/:id', (req,res,next) => {
 router.delete('/:id', (req,res, next) => {
   try {
     const id = req.params.id
-    fighterService.delete(id)
-    res.data = 'fighter was successfully deleted'
+    res.data = fighterService.delete(id)
   }catch(err) {
     res.err = err
   }finally {
@@ -69,6 +62,9 @@ router.delete('/:id', (req,res, next) => {
 
 router.put('/:id',updateFighterValid,(req,res,next) => {
   try {
+    if(res.err) {
+      return next()
+    }
     const id = req.params.id
     const updatedFighter = fighterService.update(id, req.body)
     res.data = updatedFighter
